@@ -7,9 +7,19 @@ var sketchProc = function (processingInstance) {
         ///////////////////
         //Globals
         angleMode = "radians";
-        var bugDebug = false;
-        var eyeDebug = false;
-        var enemyDebug = true;
+
+        var debugMode = false;
+        if (debugMode === true) {
+            var bugDebug = true;
+            var eyeDebug = true;
+            var enemyDebug = true;
+        }
+        if (debugMode === false) {
+            var bugDebug = false;
+            var eyeDebug = false;
+            var enemyDebug = false;
+        }
+
 
         var mPressed = false; //represents if the mouse was down or up
         var mClicked = false;
@@ -306,7 +316,6 @@ var sketchProc = function (processingInstance) {
             this.y = 0;
             this.angle = 0;
             this.fire = 0;
-
             this.damage = 0;
         };
 
@@ -315,9 +324,7 @@ var sketchProc = function (processingInstance) {
             this.y = 0;
             this.angle = 0;
             this.fire = 0;
-
-            this.damage = 1;
-
+            this.damage = 5;
             this.step = new PVector(0, -1);
         };
         var enemyObj = function (x, y, type) {
@@ -584,53 +591,46 @@ var sketchProc = function (processingInstance) {
 
             background(0, 0, 0);
             fill(222, 16, 43);
+            textSize(50);
+            text("Upgrades", 90, 70);
             textSize(25);
-            text("Health: " + phealth, 20, 70);
-            text("Normal Damage: " + pnormal, 20, 95);
-            text("Elite Damage: " + pelite, 20, 120);
-            text("Critical Hit %: " + pcritp, 20, 145);
-            text("Critical Hit Mult: " + pcritm, 20, 170);
+            text("Health: " + phealth, 20, 120);
+            text("Normal Damage: " + pnormal, 20, 145);
+            text("Armor Pen: " + pelite, 20, 170);
+            //text("Critical Hit %: " + pcritp, 20, 145);
+            //text("Critical Hit Mult: " + pcritm, 20, 170);
             text("Points Spent: " + savedpts, 20, 220);
             text("Points Available: " + availpts, 20, 245);
 
-            text(" +10", 320, 70);
-            text(" +1", 320, 95);
-            text(" +1", 320, 120);
-            text(" +0.01", 320, 145);
-            text(" +0.1", 320, 170);
+            text(" +10", 320, 120);
+            text(" +1", 320, 145);
+            text(" +1", 320, 170);
+            //text(" +0.01", 320, 145);
+            //text(" +0.1", 320, 170);
 
             //buttons
-            if (mouseX > 300 && mouseX < 320 && mouseY > 50 && mouseY < 70 && mClicked === true && availpts > 0) {
+            if (mouseX > 300 && mouseX < 320 && mouseY > 100 && mouseY < 120 && mClicked === true && availpts > 0) {
                 phealth += 10;
                 availpts -= 1;
                 savedpts += 1;
 
             }
-            if (mouseX > 300 && mouseX < 320 && mouseY > 75 && mouseY < 90 && mClicked === true && availpts > 0) {
+            if (mouseX > 300 && mouseX < 320 && mouseY > 125 && mouseY < 145 && mClicked === true && availpts > 0) {
                 pnormal += 1;
                 availpts -= 1;
                 savedpts += 1;
             }
-            if (mouseX > 300 && mouseX < 320 && mouseY > 100 && mouseY < 120 && mClicked === true && availpts > 0) {
+            if (mouseX > 300 && mouseX < 320 && mouseY > 150 && mouseY < 170 && mClicked === true && availpts > 0) {
                 pelite += 1;
                 availpts -= 1;
                 savedpts += 1;
             }
-            if (mouseX > 300 && mouseX < 320 && mouseY > 125 && mouseY < 145 && mClicked === true && availpts > 0) {
-                pcritp += 0.01;
-                availpts -= 1;
-                savedpts += 1;
-            }
-            if (mouseX > 300 && mouseX < 320 && mouseY > 150 && mouseY < 170 && mClicked === true && availpts > 0) {
-                pcritm += 0.1;
-                availpts -= 1;
-                savedpts += 1;
-            }
-            rect(300, 50, 20, 20);
-            rect(300, 75, 20, 20);
+
             rect(300, 100, 20, 20);
             rect(300, 125, 20, 20);
             rect(300, 150, 20, 20);
+            //rect(300, 125, 20, 20);
+            //rect(300, 150, 20, 20);
 
             rect(52.5, 300, 70, 35);
             rect(127.5, 300, 70, 35);
@@ -643,17 +643,19 @@ var sketchProc = function (processingInstance) {
             text("Save", 208, 325);
             text("Undo", 283.5, 325);
 
-            text("+", 304, 70);
-            text("+", 304, 95);
             text("+", 304, 120);
             text("+", 304, 145);
             text("+", 304, 170);
+            //text("+", 304, 145);
+            //text("+", 304, 170);
 
             //bottom 4 button checks
             //start
             if (mouseX > 52.5 && mouseX < 122.5 && mouseY > 300 && mouseY < 370 && mClicked === true) {
                 me.changeState(4);
                 spawn();
+                canvasX = 0;
+                canvasY = 0;
                 //set enemies stats
                 for (var i = 0; i < enemies.length; i++) {
                     enemies[i].health = ssavedpts;
@@ -687,7 +689,7 @@ var sketchProc = function (processingInstance) {
                 spcritp = pcritp;
                 savailpts = availpts;
                 ssavedpts = savedpts;
-              
+
 
             }
             //undo
@@ -713,6 +715,19 @@ var sketchProc = function (processingInstance) {
         mainGameState.prototype.execute = function (me) {
             background(244, 244, 244);
 
+
+            if (keyArray[68] === 1) {
+                    bugDebug = true;
+                    eyeDebug = true;
+                    enemyDebug = true;
+                    debugMode = true;
+            }
+            if (keyArray[68] === 0) {
+                bugDebug = false;
+                eyeDebug = false;
+                enemyDebug = false;
+                debugMode = false;
+            }
             pushMatrix();
             translate(canvasX, canvasY);
 
@@ -723,16 +738,22 @@ var sketchProc = function (processingInstance) {
                 if (enemies[i].dead === 0) {//draw enemies if not dead
                     enemies[i].draw();
                     //enemy bullet draws
-                    for (j = 0; j < enemies[i].enemyBullets.length; j++) {
+                    for (var j = 0; j < enemies[i].enemyBullets.length; j++) {
                         if (enemies[i].enemyBullets[j].fire === 1) {
                             enemies[i].enemyBullets[j].draw();
                         }
-                        xx = enemies[i].enemyBullets[j].x;
-                        yy = enemies[i].enemyBullets[j].y;
+                        var xx = enemies[i].enemyBullets[j].x;
+                        var yy = enemies[i].enemyBullets[j].y;
                         //collision checks for enemy bullets
-                        if (xx > person.x-5 && xx < person.x+5 && yy > person.y-5 && yy < person.y+30 && enemies[i].enemyBullets[j].fire === 1){
+                        if (xx > person.x - 5 && xx < person.x + 5 && yy > person.y - 5 && yy < person.y + 30 && enemies[i].enemyBullets[j].fire === 1) {
                             enemies[i].enemyBullets[j].fire = 0;
-                            person.curHealth-=enemies[i].enemyBullets[j].damage;
+                            person.curHealth -= enemies[i].enemyBullets[j].damage;
+                        }
+                        //collision checks for boundrys with enemy bullets
+                        for (var k = 0; k < boundaries.length; k++) {
+                            if (xx > boundaries[k].x && xx < boundaries[k].x + 20 && yy > boundaries[k].y && yy < boundaries[k].y + 20 && enemies[i].enemyBullets[j].fire === 1) {
+                                enemies[i].enemyBullets[j].fire = 0;
+                            }
                         }
                     }
 
@@ -757,9 +778,14 @@ var sketchProc = function (processingInstance) {
                 }
             }
             //bullet draws
-            for (i = 0; i < playerBullets.length; i++) {
+            for (var i = 0; i < playerBullets.length; i++) {
                 if (playerBullets[i].fire === 1) {
                     playerBullets[i].draw();
+                }
+                for (var k = 0; k < boundaries.length; k++) {
+                    if (playerBullets[i].x > boundaries[k].x && playerBullets[i].x < boundaries[k].x + 20 && playerBullets[i].y > boundaries[k].y && playerBullets[i].y < boundaries[k].y + 20 && playerBullets[i].fire === 1) {
+                        playerBullets[i].fire = 0;
+                    }
                 }
             }
             ////
@@ -852,9 +878,6 @@ var sketchProc = function (processingInstance) {
             me.angle = me.step.heading() + (PI);
             me.step.x *= me.standardSpeed;
             me.step.y *= me.standardSpeed;
-
-
-
             me.position.add(me.step);
             //Get new position
             var gridX = me.position.x / 20;
@@ -1329,7 +1352,7 @@ var sketchProc = function (processingInstance) {
                 me.enemyBullets[me.enemyBulletIdx].fire = 1;
                 me.enemyBullets[me.enemyBulletIdx].x = me.position.x;
                 me.enemyBullets[me.enemyBulletIdx].y = me.position.y;
-                me.enemyBullets[me.enemyBulletIdx].step.set(me.position.x - person.x, me.position.y - person.y-15);
+                me.enemyBullets[me.enemyBulletIdx].step.set(me.position.x - person.x, me.position.y - person.y - 15);
                 me.enemyBullets[me.enemyBulletIdx].step.normalize();
 
                 me.enemyBullets[me.enemyBulletIdx].angle = me.enemyBullets[me.enemyBulletIdx].step.heading() + PI;
@@ -1339,25 +1362,41 @@ var sketchProc = function (processingInstance) {
                     me.enemyBulletIdx = 0;
                 }
             }
-            ///
         };
-
 
         //other functions
         personObj.prototype.move = function () {
             var gridX = floor(this.x / 20);
             var gridY = floor(this.y / 20);
-            if (keyArray[LEFT] === 1) {
+            var collision = false;
+            for (var k = 0; k < boundaries.length; k++) {
+                if (person.x - 5 < boundaries[k].x + 20 && person.x + 5 > boundaries[k].x && person.y - 5 < boundaries[k].y + 20 && person.y + 30 > boundaries[k].y) {
+                    collision = true;
+                }
+            }
+            if (keyArray[LEFT] === 1 && collision === false) {
                 this.x = this.x - 1;
             }
-            if (keyArray[RIGHT] === 1) {
+            if (keyArray[RIGHT] === 1 && collision === false) {
                 this.x = this.x + 1;
             }
-            if (keyArray[UP] === 1) {
+            if (keyArray[UP] === 1 && collision === false) {
                 this.y = this.y - 1;
             }
-            if (keyArray[DOWN] === 1) {
+            if (keyArray[DOWN] === 1 && collision === false) {
                 this.y = this.y + 1;
+            }
+            if (keyArray[LEFT] === 1 && collision === true) {
+                this.x = this.x + 5;
+            }
+            if (keyArray[RIGHT] === 1 && collision === true) {
+                this.x = this.x - 5;
+            }
+            if (keyArray[UP] === 1 && collision === true) {
+                this.y = this.y + 5;
+            }
+            if (keyArray[DOWN] === 1 && collision === true) {
+                this.y = this.y - 5;
             }
             if (floor(this.x / 20) !== gridX || floor(this.y / 20) !== gridY || currentCover[0].x === -1) {
                 //Re-evaluate cover options
@@ -1953,17 +1992,18 @@ var sketchProc = function (processingInstance) {
                 popMatrix();
 
             }
-            //ellipse(0, 0, 20, 20);
-            //ellipse(0, 5, 30, 15);
 
             popMatrix();
         };
         personObj.prototype.draw = function () {
-            ////person boundry box
-            //fill(0,255,255);
-            //rect(this.x-5,this.y-5,10,35);
-            //
-            
+            if (debugMode === true) {
+                ////person boundry box
+                fill(0, 255, 255);
+                rect(this.x - 5, this.y - 5, 10, 35);
+                //
+            }
+
+
             fill(0, 0, 0);
             noStroke();
             ellipse(this.x, this.y, 10, 10);
@@ -1991,8 +2031,8 @@ var sketchProc = function (processingInstance) {
                     triangle(this.x - 1, this.y + 28, this.x - 0, this.y + 21, this.x + 1, this.y + 28);
                     break;
             }
-            
-            
+
+
             if (this.currFrame < (frameCount - 10)) {
                 this.currFrame = frameCount; this.walkState++;
                 if (this.walkState > 1) {
@@ -2107,8 +2147,6 @@ var sketchProc = function (processingInstance) {
 
         //Object Instantions
         var game = new gameObj();
-
-
 
         //Main Draw
         var draw = function () {
