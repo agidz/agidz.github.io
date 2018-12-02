@@ -7,8 +7,8 @@ var sketchProc = function (processingInstance) {
         ///////////////////
         //Globals
         angleMode = "radians";
-        var bugDebug = false;
-        var eyeDebug = false;
+        var bugDebug = true;
+        var eyeDebug = true;
 
         var mPressed = false; //represents if the mouse was down or up
         var mClicked = false;
