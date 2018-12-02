@@ -3,7 +3,7 @@ var sketchProc = function (processingInstance) {
         size(400, 400);
         frameRate(60);
 
-
+        //GITHUB COPY
         ///////////////////
         //Globals
         angleMode = "radians";
