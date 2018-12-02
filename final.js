@@ -9,8 +9,8 @@ var sketchProc = function (processingInstance) {
         angleMode = "radians";
         var bugDebug = false;
         var eyeDebug = false;
+        var enemyDebug = true;
 
-        
         var mPressed = false; //represents if the mouse was down or up
         var mClicked = false;
         //Player Stats Saved
@@ -36,6 +36,7 @@ var sketchProc = function (processingInstance) {
         var enemies = [];
         var keyArray = [];
         var currFrameCount = 0;
+        var currbulletFC = 0;
         var deadEnemies = 0;
         var canvasX = 0;
         var canvasY = 0;
@@ -96,7 +97,7 @@ var sketchProc = function (processingInstance) {
             "b                                                          b",
             "b                                                          b",
             "b                                                          b",
-            "b              b                                           b",
+            "b                                                          b",
             "b                                                          b",
             "b                                       b                  b",
             "b                                      bbb                 b",
@@ -300,6 +301,25 @@ var sketchProc = function (processingInstance) {
             this.count = 0;
         };
 
+        var bulletObj = function () {
+            this.x = 0;
+            this.y = 0;
+            this.angle = 0;
+            this.fire = 0;
+
+            this.damage = 0;
+        };
+
+        var ebulletObj = function () {
+            this.x = 0;
+            this.y = 0;
+            this.angle = 0;
+            this.fire = 0;
+
+            this.damage = 1;
+
+            this.step = new PVector(0, -1);
+        };
         var enemyObj = function (x, y, type) {
             this.position = new PVector(x, y);
             this.state = [new wanderState(), new chaseState(), new goToGunshot(), new getToCover(), new getToVantage()];
@@ -315,6 +335,11 @@ var sketchProc = function (processingInstance) {
             this.currPowerFrame = frameCount;
             ////
 
+            //bullet code
+            this.enemyBullets = [new ebulletObj(), new ebulletObj(), new ebulletObj(), new ebulletObj(), new ebulletObj(), new ebulletObj()];//6 bullets from enemy at a time
+            this.enemyBulletIdx = 0;
+            this.currbulletFC = 0;
+            //
             this.type = type;
             if (type === 0) {           //Constants for runners
                 this.anchorDistance = 100;
@@ -374,14 +399,7 @@ var sketchProc = function (processingInstance) {
             this.step = new PVector(0, -1);
         };
 
-        var bulletObj = function () {
-            this.x = 0;
-            this.y = 0;
-            this.angle = 0;
-            this.fire = 0;
 
-            this.damage = 0;
-        };
 
         var person = new personObj(40, 75);
         var gun = new gunObj(person.x, person.y);
@@ -669,6 +687,8 @@ var sketchProc = function (processingInstance) {
                 spcritp = pcritp;
                 savailpts = availpts;
                 ssavedpts = savedpts;
+              
+
             }
             //undo
             if (mouseX > 277.5 && mouseX < 347.5 && mouseY > 300 && mouseY < 370 && mClicked === true) {
@@ -702,12 +722,26 @@ var sketchProc = function (processingInstance) {
             for (var i = 0; i < enemies.length; i++) {
                 if (enemies[i].dead === 0) {//draw enemies if not dead
                     enemies[i].draw();
+                    //enemy bullet draws
+                    for (j = 0; j < enemies[i].enemyBullets.length; j++) {
+                        if (enemies[i].enemyBullets[j].fire === 1) {
+                            enemies[i].enemyBullets[j].draw();
+                        }
+                        xx = enemies[i].enemyBullets[j].x;
+                        yy = enemies[i].enemyBullets[j].y;
+                        //collision checks for enemy bullets
+                        if (xx > person.x-5 && xx < person.x+5 && yy > person.y-5 && yy < person.y+30 && enemies[i].enemyBullets[j].fire === 1){
+                            enemies[i].enemyBullets[j].fire = 0;
+                            person.curHealth-=enemies[i].enemyBullets[j].damage;
+                        }
+                    }
+
                     enemies[i].state[enemies[i].currState].execute(enemies[i]);
                 }
             }
             person.draw();
             person.move();
-            ////bullet code
+            ////player bullet code
             //make new bullet on click
             if (mClicked) {
                 if (currFrameCount < (frameCount - 10)) {
@@ -729,6 +763,8 @@ var sketchProc = function (processingInstance) {
                 }
             }
             ////
+
+
             gun.draw();
 
             if (person.curHealth <= 0) {
@@ -756,7 +792,7 @@ var sketchProc = function (processingInstance) {
             rect(299 - canvasX, 299 - canvasY, 100, 100);
             //camera box of current view
 
-            rect(299-canvasX-(canvasX/12),299-canvasY-(canvasY/12), 33.3,33.3);
+            rect(299 - canvasX - (canvasX / 12), 299 - canvasY - (canvasY / 12), 33.3, 33.3);
             //draw person on map
             noStroke();
             fill(0, 0, 0);
@@ -1286,6 +1322,24 @@ var sketchProc = function (processingInstance) {
                 this.count = 0;
                 me.changeState(3);
             }
+
+            ///added bullet code
+            if (me.currbulletFC < (frameCount - 40)) {
+                me.currbulletFC = frameCount;
+                me.enemyBullets[me.enemyBulletIdx].fire = 1;
+                me.enemyBullets[me.enemyBulletIdx].x = me.position.x;
+                me.enemyBullets[me.enemyBulletIdx].y = me.position.y;
+                me.enemyBullets[me.enemyBulletIdx].step.set(me.position.x - person.x, me.position.y - person.y-15);
+                me.enemyBullets[me.enemyBulletIdx].step.normalize();
+
+                me.enemyBullets[me.enemyBulletIdx].angle = me.enemyBullets[me.enemyBulletIdx].step.heading() + PI;
+
+                me.enemyBulletIdx++;
+                if (me.enemyBulletIdx > 5) {
+                    me.enemyBulletIdx = 0;
+                }
+            }
+            ///
         };
 
 
@@ -1362,17 +1416,22 @@ var sketchProc = function (processingInstance) {
             pushMatrix();
             translate(this.position.x, this.position.y);
             rotate(this.angle);
-            //testing for boundry of enemy
-            fill(255, 0, 0);
-            rect(0 - 15, 0 - 10, 30, 22);
-            //
-            //testing for enemy health
-            fill(222, 16, 43);
-            textSize(25);
-            text(this.health, -10, -20);
-            fill(0, 16, 43);
-            text(this.armor, 10, -20);
-            //    
+
+            if (enemyDebug === true) {
+                //testing for boundry of enemy
+                fill(255, 0, 0);
+                rect(0 - 15, 0 - 10, 30, 22);
+                //
+                //testing for enemy health
+                fill(222, 16, 43);
+                textSize(25);
+                text(this.health, -10, -20);
+                fill(0, 16, 43);
+                text(this.armor, 10, -20);
+                //  
+
+            }
+
             if (this.type === 0) {//melee
                 //fill(0, 255, 0);
                 noStroke();
@@ -1900,6 +1959,11 @@ var sketchProc = function (processingInstance) {
             popMatrix();
         };
         personObj.prototype.draw = function () {
+            ////person boundry box
+            //fill(0,255,255);
+            //rect(this.x-5,this.y-5,10,35);
+            //
+            
             fill(0, 0, 0);
             noStroke();
             ellipse(this.x, this.y, 10, 10);
@@ -1927,7 +1991,8 @@ var sketchProc = function (processingInstance) {
                     triangle(this.x - 1, this.y + 28, this.x - 0, this.y + 21, this.x + 1, this.y + 28);
                     break;
             }
-
+            
+            
             if (this.currFrame < (frameCount - 10)) {
                 this.currFrame = frameCount; this.walkState++;
                 if (this.walkState > 1) {
@@ -2007,6 +2072,20 @@ var sketchProc = function (processingInstance) {
                     enemies[i].dead = 1;
                 }
             }
+        };
+        ebulletObj.prototype.draw = function () {
+            pushMatrix();
+            translate(this.x, this.y);
+            rotate(this.angle);
+            fill(0, 0, 255);
+            ellipse(0, 0, 4, 4);
+            //this.x += 5;
+            popMatrix();
+
+            this.x = cos(this.angle) * 5 + this.x;
+            this.y = sin(this.angle) * 5 + this.y;
+
+
         };
 
         //mouse and keyboard functions
