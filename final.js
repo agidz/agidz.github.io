@@ -9,6 +9,7 @@ var sketchProc = function (processingInstance) {
         angleMode = "radians";
         var bugDebug = true;
         var eyeDebug = true;
+        
         var mPressed = false; //represents if the mouse was down or up
         var mClicked = false;
         //Player Stats Saved
