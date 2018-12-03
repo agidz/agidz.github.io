@@ -5,6 +5,540 @@ var sketchProc = function (processingInstance) {
 
         //GITHUB COPY
         ///////////////////
+ var drawMyShape = function(x, y, angle, sx, sy) {
+    var fns = {
+        
+"shapeListDraw" : function(list) { for (var i = 0; i < list.length; ++i) {var shape = list[i];fns.shapeDraw.call(shape);}},
+"shapeDraw" : function() {pushStyle();if (this.styles.fill) {   fill(this.styles.fill);}else {    noFill();}if (this.styles.stroke) {   stroke(this.styles.stroke);   strokeWeight(this.styles.strokeWeight);}else {   noStroke();}fns.transformDraw.call(this.transform, fns.Shapes[this.name].bind(this, this.shape));popStyle();},
+"transformDraw" : function(cb) {pushMatrix();translate(this.tx, this.ty);rotate(this.angle);scale(this.sx, this.sy);cb();popMatrix();},
+"Shapes" : {
+"Rect" : function(shape) {rectMode(CENTER);rect(0, 0, shape.w, shape.h);},
+"Ellipse" : function(shape) {ellipseMode(CENTER);ellipse(0, 0, shape.w, shape.h);},
+"Triangle" : function(shape) {var p = shape.vertices;triangle(p[0].x, p[0].y, p[1].x, p[1].y, p[2].x, p[2].y);},
+"Line" : function(shape) {var p = shape.vertices;line(p[0].x, p[0].y, p[1].x, p[1].y);},
+"CurveShape" : function(shape) {var pts = shape.vertices;var nPoints = pts.length;beginShape();for (var i = 0; i < nPoints; ++i) {   var p = pts[i];   curveVertex(p.x, p.y);}for (var i = 0; i < 3; ++i) {   var p = pts[i];   curveVertex(p.x, p.y);}endShape();},
+"Polygon" : function(shape) {var pts = shape.vertices;var nPoints = pts.length;beginShape();for (var i = 0; i < nPoints; ++i) {   var p = pts[i];   vertex(p.x, p.y);}vertex(pts[0].x, pts[0].y);endShape();}
+}
+
+};var list = [
+{
+"shape" : {
+"w" : 150.0,
+"h" : 8.0
+},
+"styles" : {
+"fill" : -15132391.0,
+"stroke" : -16777216.0,
+"strokeWeight" : 1.0
+},
+"transform" : {
+"tx" : 91.0,
+"ty" : -143.0,
+"angle" : -7245.0,
+"sx" : 1.0,
+"sy" : 1.0
+},
+"name" : 'Rect',
+"tx" : NaN,
+"ty" : NaN
+},
+{
+"shape" : {
+"w" : 82.0,
+"h" : 26.0
+},
+"styles" : {
+"fill" : -15132391.0,
+"stroke" : -16777216.0,
+"strokeWeight" : 1.0
+},
+"transform" : {
+"tx" : -36.0,
+"ty" : -34.0,
+"angle" : -15889.7,
+"sx" : 1.0,
+"sy" : 1.0
+},
+"name" : 'Rect',
+"tx" : NaN,
+"ty" : NaN
+},
+{
+"shape" : {
+"vertices" : [
+{
+"x" : -2.4,
+"y" : 42.2
+},
+{
+"x" : 28.8,
+"y" : -11.5
+},
+{
+"x" : 11.3,
+"y" : -22.5
+},
+{
+"x" : -37.7,
+"y" : -8.2
+}
+]
+},
+"styles" : {
+"fill" : -15132391.0,
+"stroke" : -16777216.0,
+"strokeWeight" : 1.0
+},
+"transform" : {
+"tx" : -74.4,
+"ty" : -1.9,
+"angle" : -5050.6,
+"sx" : 1.0,
+"sy" : 1.0
+},
+"tx" : NaN,
+"ty" : NaN,
+"name" : 'CurveShape'
+},
+{
+"shape" : {
+"vertices" : [
+{
+"x" : -25.0,
+"y" : 28.8
+},
+{
+"x" : 24.0,
+"y" : 33.8
+},
+{
+"x" : 24.0,
+"y" : -31.3
+},
+{
+"x" : -23.0,
+"y" : -31.3
+}
+]
+},
+"styles" : {
+"fill" : -11776948.0,
+"stroke" : -16777216.0,
+"strokeWeight" : 1.0
+},
+"transform" : {
+"tx" : 0.0,
+"ty" : -131.8,
+"angle" : 0.0,
+"sx" : 1.0,
+"sy" : 1.0
+},
+"tx" : NaN,
+"ty" : NaN,
+"name" : 'CurveShape'
+},
+{
+"shape" : {
+"vertices" : [
+{
+"x" : -37.3,
+"y" : -1.0
+},
+{
+"x" : -30.3,
+"y" : 50.0
+},
+{
+"x" : 3.8,
+"y" : 67.0
+},
+{
+"x" : 30.7,
+"y" : 47.0
+},
+{
+"x" : 36.8,
+"y" : -4.0
+},
+{
+"x" : 52.8,
+"y" : -45.0
+},
+{
+"x" : -2.2,
+"y" : -76.0
+},
+{
+"x" : -54.3,
+"y" : -38.0
+}
+]
+},
+"styles" : {
+"fill" : -11776948.0,
+"stroke" : -16777216.0,
+"strokeWeight" : 1.0
+},
+"transform" : {
+"tx" : 2.2,
+"ty" : -36.0,
+"angle" : 0.0,
+"sx" : 1.0,
+"sy" : 1.0
+},
+"tx" : NaN,
+"ty" : NaN,
+"name" : 'CurveShape'
+},
+{
+"shape" : {
+"vertices" : [
+{
+"x" : -7.8,
+"y" : 66.5
+},
+{
+"x" : -3.8,
+"y" : 34.5
+},
+{
+"x" : 0.2,
+"y" : 12.5
+},
+{
+"x" : 2.2,
+"y" : -1.5
+},
+{
+"x" : 6.2,
+"y" : -18.5
+},
+{
+"x" : 18.2,
+"y" : -31.5
+},
+{
+"x" : 30.2,
+"y" : -45.5
+},
+{
+"x" : 27.2,
+"y" : -64.5
+},
+{
+"x" : -17.8,
+"y" : -50.5
+},
+{
+"x" : -28.8,
+"y" : 33.5
+},
+{
+"x" : -25.8,
+"y" : 65.5
+}
+]
+},
+"styles" : {
+"fill" : -11776948.0,
+"stroke" : -16777216.0,
+"strokeWeight" : 1.0
+},
+"transform" : {
+"tx" : -54.2,
+"ty" : -35.5,
+"angle" : 0.0,
+"sx" : 1.0,
+"sy" : 1.0
+},
+"tx" : NaN,
+"ty" : NaN,
+"name" : 'CurveShape'
+},
+{
+"shape" : {
+"vertices" : [
+{
+"x" : -33.8,
+"y" : -58.8
+},
+{
+"x" : -33.8,
+"y" : -38.8
+},
+{
+"x" : -12.8,
+"y" : -16.8
+},
+{
+"x" : -6.8,
+"y" : 2.2
+},
+{
+"x" : -2.8,
+"y" : 33.2
+},
+{
+"x" : 2.2,
+"y" : 75.2
+},
+{
+"x" : 19.2,
+"y" : 71.2
+},
+{
+"x" : 24.2,
+"y" : 25.2
+},
+{
+"x" : 24.2,
+"y" : -3.8
+},
+{
+"x" : 17.2,
+"y" : -33.8
+},
+{
+"x" : 3.2,
+"y" : -54.8
+}
+]
+},
+"styles" : {
+"fill" : -11776948.0,
+"stroke" : -16777216.0,
+"strokeWeight" : 1.0
+},
+"transform" : {
+"tx" : 59.8,
+"ty" : -40.2,
+"angle" : 0.0,
+"sx" : 1.0,
+"sy" : 1.0
+},
+"tx" : NaN,
+"ty" : NaN,
+"name" : 'CurveShape'
+},
+{
+"shape" : {
+"vertices" : [
+{
+"x" : -12.0,
+"y" : 11.7
+},
+{
+"x" : -10.0,
+"y" : 45.7
+},
+{
+"x" : -8.0,
+"y" : 68.7
+},
+{
+"x" : 8.0,
+"y" : 66.7
+},
+{
+"x" : 22.0,
+"y" : -1.3
+},
+{
+"x" : 21.0,
+"y" : -37.3
+},
+{
+"x" : 7.0,
+"y" : -74.3
+},
+{
+"x" : -19.0,
+"y" : -58.3
+},
+{
+"x" : -9.0,
+"y" : -21.3
+}
+]
+},
+"styles" : {
+"fill" : -11776948.0,
+"stroke" : -16777216.0,
+"strokeWeight" : 1.0
+},
+"transform" : {
+"tx" : 23.0,
+"ty" : 86.3,
+"angle" : 0.0,
+"sx" : 1.0,
+"sy" : 1.0
+},
+"tx" : NaN,
+"ty" : NaN,
+"name" : 'CurveShape'
+},
+{
+"shape" : {
+"vertices" : [
+{
+"x" : -13.9,
+"y" : 27.4
+},
+{
+"x" : -10.9,
+"y" : 43.4
+},
+{
+"x" : -3.9,
+"y" : 55.4
+},
+{
+"x" : 12.1,
+"y" : 52.4
+},
+{
+"x" : 12.1,
+"y" : 7.4
+},
+{
+"x" : 20.1,
+"y" : -23.6
+},
+{
+"x" : 27.1,
+"y" : -58.6
+},
+{
+"x" : 2.1,
+"y" : -73.6
+},
+{
+"x" : -13.9,
+"y" : -40.6
+},
+{
+"x" : -15.9,
+"y" : -4.6
+},
+{
+"x" : -14.9,
+"y" : 15.4
+}
+]
+},
+"styles" : {
+"fill" : -11776948.0,
+"stroke" : -16777216.0,
+"strokeWeight" : 1.0
+},
+"transform" : {
+"tx" : -29.1,
+"ty" : 88.6,
+"angle" : 0.0,
+"sx" : 1.0,
+"sy" : 1.0
+},
+"tx" : NaN,
+"ty" : NaN,
+"name" : 'CurveShape'
+},
+{
+"shape" : {
+"vertices" : [
+{
+"x" : 14.8,
+"y" : 10.0
+},
+{
+"x" : 8.8,
+"y" : -10.0
+},
+{
+"x" : -10.3,
+"y" : -10.0
+},
+{
+"x" : -13.3,
+"y" : 10.0
+}
+]
+},
+"styles" : {
+"fill" : -13421773.0,
+"stroke" : -16777216.0,
+"strokeWeight" : 1.0
+},
+"transform" : {
+"tx" : 25.3,
+"ty" : 158.0,
+"angle" : 0.0,
+"sx" : 1.0,
+"sy" : 1.0
+},
+"tx" : NaN,
+"ty" : NaN,
+"name" : 'CurveShape'
+},
+{
+"shape" : {
+"vertices" : [
+{
+"x" : 15.0,
+"y" : 10.5
+},
+{
+"x" : 10.0,
+"y" : -10.5
+},
+{
+"x" : -9.0,
+"y" : -9.5
+},
+{
+"x" : -16.0,
+"y" : 9.5
+}
+]
+},
+"styles" : {
+"fill" : -13421773.0,
+"stroke" : -16777216.0,
+"strokeWeight" : 1.0
+},
+"transform" : {
+"tx" : -29.0,
+"ty" : 142.5,
+"angle" : 0.0,
+"sx" : 1.0,
+"sy" : 1.0
+},
+"tx" : NaN,
+"ty" : NaN,
+"name" : 'CurveShape'
+},
+{
+"shape" : {
+"w" : 48.0,
+"h" : 8.0
+},
+"styles" : {
+"fill" : -56551.0,
+"stroke" : -16777216.0,
+"strokeWeight" : 1.0
+},
+"transform" : {
+"tx" : 1.0,
+"ty" : -153.0,
+"angle" : 0.0,
+"sx" : 1.0,
+"sy" : 1.0
+},
+"name" : 'Ellipse',
+"tx" : NaN,
+"ty" : NaN
+}
+];pushMatrix();translate(x !== undefined ? x : width/2, y !== undefined ? y: height/2);rotate(angle||0);scale(sx||1, sy||1);fns.shapeListDraw(list);popMatrix();};
+
         //Globals
         angleMode = "radians";
 
@@ -479,84 +1013,31 @@ var sketchProc = function (processingInstance) {
             me.changeState(1);
         };
         startMenuState.prototype.execute = function (me) {
-            background(0, 0, 0);
-            noStroke();
-
-            pushMatrix();
-            translate(0, 23); //translates whole figure
-            fill(112, 112, 112);
-            ellipse(200, 135, 43, 63);
-            ellipse(200, 196, 36, 55);
-            beginShape();
-            vertex(192, 147);
-            bezierVertex(222, 198, 177, 192, 159, 175);
-            bezierVertex(178, 174, 183, 162, 192, 147);
-            endShape();
-            beginShape();
-            vertex(209, 151);
-            bezierVertex(178, 154, 194, 205, 239, 174);
-            bezierVertex(223, 177, 209, 165, 209, 151);
-            endShape();
-            beginShape();
-            vertex(189, 180);
-            bezierVertex(178, 154, 163, 200, 190, 219);
-            bezierVertex(220, 221, 206, 209, 189, 180);
-            endShape();
-            beginShape();
-            vertex(199, 179);
-            bezierVertex(239, 159, 223, 213, 208, 227);
-            bezierVertex(178, 213, 202, 205, 199, 179);
-            endShape();
-            //right arm
-            pushMatrix();
-            translate(230, 188);
-            rotate(0.6);
-            ellipse(0, 0, 45, 18);
-            popMatrix();
-
-            pushMatrix();
-            translate(241, 209);
-            rotate(1.6);
-            ellipse(0, 0, 45, 18);
-            popMatrix();
-            //left arm
-            pushMatrix();
-            translate(170, 188);
-            rotate(2.5);
-            ellipse(0, 0, 45, 18);
-            popMatrix();
-
-            pushMatrix();
-            translate(166, 213);
-            rotate(1.0);
-            ellipse(0, 0, 45, 18);
-            popMatrix();
-
-            popMatrix();
-
-            if (mouseX > 156 && mouseX < 250 && mouseY > 243 && mouseY < 278) {
+            background(117, 23, 23);
+drawMyShape(200, 200);
+            if (mouseX > 119 && mouseX < 281 && mouseY > 208 && mouseY < 266) {
                 fill(56, 53, 54);
             }
             else {
                 fill(61, 58, 59);
             }
-            rect(156, 243, 94, 35);
+            rect(119, 208, 162, 58);
 
             //text
             fill(222, 16, 43);
             textSize(60);
-            text("Warframe", 68, 70);
+            text("Warframe", 68, 157);
             textSize(40);
             text("The Beginning", 70, 345);
-            textSize(19);
+            textSize(30);
             fill(235, 232, 233);
-            text("Launch", 173, 267);
+            text("Launch", 153, 249);
             textSize(10);
             fill(235, 232, 233);
             text("Andrew Gidzinski Tom Otgonbayar Thomas Sudlow", 83, 367);
 
             //check if button clicked for next state
-            if (mouseX > 156 && mouseX < 250 && mouseY > 243 && mouseY < 278 && mPressed === true) {
+            if (mouseX > 119 && mouseX < 281 && mouseY > 208 && mouseY < 266 && mPressed === true) {
                 me.changeState(3);
                 phealth = 50;
                 pnormal = 1;
@@ -578,9 +1059,22 @@ var sketchProc = function (processingInstance) {
             background(0, 0, 0);
             fill(222, 16, 43);
             textSize(20);
-            text("Use the arrow keys to move your\ncharacter. Click to shoot. You win the\nroundwhen you kill all of the enemies.\nYou lose and are returned to the character\npage when you lose all of your life. You\ngain points to improve your character\nafter you win the round, gain none if you\nnlose the round. To spend the points, click\nthe + next to each attribute. The enemies\nwill scale in difficulty based on how many\npoints you have spent on your character.\nSave saves your current points spent,\nundo will return the points you spent.", 20, 30);
+            text("\n\nUse the arrow keys to move.\nMouse click to shoot.\n\nKill all enemies to win the round.\nWinning rounds will give more points.\nSpend points in the Upgrade section.\n\nThe enemies scale in difficulty and \nnumber based on number of upgrades.\n\nClick Save and Start to start new round.", 20, 30);
+            textSize(50);
+            text("Instructions", 61, 44);
+            if (mouseX > 110 && mouseX < 285 && mouseY > 326 && mouseY < 361)
+            {
+                fill(209, 27, 27);
+            }
+            else
+            {
+                fill(255, 0, 0);
+            }
+            rect(110, 326, 175, 35);
+           
             rect(110, 326, 175, 35);
             fill(0, 0, 0);
+            textSize(20);
             text("Back to upgrades", 120, 350);
             if (mouseX > 110 && mouseX < 285 && mouseY > 326 && mouseY < 361 && mClicked === true) {
                 me.changeState(3);
@@ -2002,43 +2496,107 @@ var sketchProc = function (processingInstance) {
                 rect(this.x - 5, this.y - 5, 10, 35);
                 //
             }
-
-
-            fill(0, 0, 0);
             noStroke();
-            ellipse(this.x, this.y, 10, 10);
-            rect(this.x - 1.5, this.y, 2, 17);
+            pushMatrix();
+            translate(this.x + -39, this.y -20);
+            scale(0.2);
             switch (this.walkState) {
-                case 0:
-                    fill(255, 255, 255);
-                    noStroke();
-                    triangle(this.x - 5, this.y + 28, this.x - 0, this.y + 16, this.x + 5, this.y + 28);
-
-                    fill(0, 0, 0);
-                    triangle(this.x - 5, this.y + 28, this.x - 0, this.y + 16, this.x + 5, this.y + 28);
-                    fill(255, 255, 255);
-                    triangle(this.x - 3, this.y + 28, this.x - 0, this.y + 21, this.x + 3, this.y + 28);
-                    break;
-
-                case 1:
-                    fill(255, 255, 255);
-                    noStroke();
-                    triangle(this.x - 5, this.y + 28, this.x - 0, this.y + 16, this.x + 5, this.y + 28);
-
-                    fill(0, 0, 0);
-                    triangle(this.x - 3, this.y + 28, this.x - 0, this.y + 16, this.x + 2, this.y + 28);
-                    fill(255, 255, 255);
-                    triangle(this.x - 1, this.y + 28, this.x - 0, this.y + 21, this.x + 1, this.y + 28);
-                    break;
-            }
-
-
-            if (this.currFrame < (frameCount - 10)) {
-                this.currFrame = frameCount; this.walkState++;
-                if (this.walkState > 1) {
-                    this.walkState = 0;
-                }
-            }
+                case 0: //looking forward down guy
+                noStroke();
+                fill(99, 97, 97);
+                rect(179,52,40,47,100);
+                rect(166,95,64,133,289);
+                rect(200,208,29,114,120);
+                rect(168,208,29,114,120);
+                ellipse(155,140,31,63);
+                triangle(162,89,212,116,144,131);
+                triangle(240,89,193,119,247,125);
+                ellipse(240,140,31,63);
+                fill(112, 104, 104);
+                ellipse(229,165,46,20);
+                ellipse(168,165,46,20);
+                fill(255, 0, 0);
+                ellipse(199,63,28,2);
+                fill(74, 74, 74);
+                rect(200,303,32,25,20);
+                rect(165,303,32,25,20);
+                break;
+            
+                case 1://
+                noStroke();
+                fill(99, 97, 97);
+                rect(179,52,40,47,100);
+                rect(166,95,64,133,289);
+                rect(201,208,29,64,120);
+                rect(168,208,29,114,120);
+                ellipse(155,140,31,63);
+                triangle(162,89,212,116,144,131);
+                triangle(240,89,193,119,247,125);
+                ellipse(240,140,31,63);
+                fill(112, 104, 104);
+                ellipse(229,165,46,20);
+                ellipse(168,165,46,20);
+                fill(255, 0, 0);
+                ellipse(199,63,28,2);
+                fill(74, 74, 74);
+                rect(203,267,25,5,20);
+                rect(167,311,32,16,20);
+                fill(92, 87, 87);
+                
+                break;
+                case 2: //looking forward down guy
+                noStroke();
+                fill(99, 97, 97);
+                rect(179,52,40,47,100);
+                rect(166,95,64,133,289);
+                rect(200,208,29,114,120);
+                rect(168,208,29,114,120);
+                ellipse(155,140,31,63);
+                triangle(162,89,212,116,144,131);
+                triangle(240,89,193,119,247,125);
+                ellipse(240,140,31,63);
+                fill(112, 104, 104);
+                ellipse(229,165,46,20);
+                ellipse(168,165,46,20);
+                fill(255, 0, 0);
+                ellipse(199,63,28,2);
+                fill(74, 74, 74);
+                rect(200,303,32,25,20);
+                rect(165,303,32,25,20);
+                break;
+                
+                case 3://
+                noStroke();
+                fill(99, 97, 97);
+                rect(179,52,40,47,100);
+                rect(166,95,64,133,289);
+                rect(166,208,29,64,120);
+                rect(203,208,29,114,120);
+                ellipse(155,140,31,63);
+                triangle(162,89,212,116,144,131);
+                triangle(240,89,193,119,247,125);
+                ellipse(240,140,31,63);
+                fill(112, 104, 104);
+                ellipse(229,165,46,20);
+                ellipse(168,165,46,20);
+                fill(255, 0, 0);
+                ellipse(199,63,28,2);
+                fill(74, 74, 74);
+                rect(168,267,25,5,20);
+                rect(204,311,32,16,20);
+                break;
+    }
+    
+    if (this.currFrame < (frameCount - 10)) 
+    {
+        this.currFrame = frameCount; 
+        this.walkState++;
+        if (this.walkState > 3) 
+    {
+            this.walkState = 0;
+        }
+    }
+            popMatrix();
 
         };
 
