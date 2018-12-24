@@ -1,41 +1,88 @@
-<!-- Open template.js, paste your Program into the commented part and 
-Save As NameOfProgram.js
-then at the bottom of this page, change  
-<script src="template.js"></script>  to 
-<script src="NameOfProgram.js"></script> 
-and Save as NameOfProgram.html -->
 
 <!DOCTYPE html>
 <!-- start of the document -->
 <html> 
- <!-- The header. Information here doesn't make up elements of the webpage. We'll define all the javascript stuff at the end, so we just put the title here. -->
  <head>
- <!-- Title to be displayed in browser -->
-    <title>Final- Warframe: The Beginning</title> 
+    <title>POE Map Planner</title>
+    <script src="processing-1.4.8.min.js"></script>  
 </head>
  
  <!-- The body of the webpage, where all visible stuff lies. -->
  <body>
-    <p align="center"> 
-	<!--This draws the Canvas on the webpage -->
-      <canvas id="mycanvas"></canvas> 
-    </p>
+      <script type="application/processing">
+         /* @pjs preload="map.jpg"; */
 
- </body>
+			PImage img;  
 
+         void setup() {
+            size(1800, 940);
+            img = loadImage("map.jpg");  // Load the image into the program  
+         }
 
- <!-- run all the JavaScript stuff -->
- <!-- Include the processing.js library -->
- <script src="processing-1.4.8.min.js"></script> 
- 
- <!-- The name of the Program Source Code goes here -->
- <script src="final.js"></script> 
- 
- <script type="application/javascript">
-  //get the canvas that Processing-js will use
-  var canvas = document.getElementById("mycanvas"); 
-  //pass the function sketchProc (defined in myCode.js) to Processing's constructor.
-  var processingInstance = new Processing(canvas, sketchProc); 
- </script>
+         var mapObj = function(x,y){
+            this.x = x;
+            this.y = y;
+            this.drawn = 1;
+            this.hover = 0;
+            this.cfill = 1; //1 for selected, 2 for elder, 3 for guardian
+         };
+         
+         var mapArray = [new mapObj(308, 150), new mapObj(384, 155), new mapObj(456, 191)];
 
+         mapObj.prototype.draw = function (){
+           
+            if(this.cfill === 1){
+               fill (0, 255, 0);
+            }
+            if(this.cfill === 2){
+               fill (0, 0, 255);
+            }
+            if(this.cfill === 3){
+               fill (160, 82, 45);
+            }
+            ellipse(this.x, this.y, 15, 15);
+         };
+
+         //keyboard functions
+         void mouseClicked(){
+            for (var i = 0; i < mapArray.length; i++){
+               if(dist(mouseX, mouseY, mapArray[i].x, mapArray[i].y) < 7.6 ){
+                  if (mapArray[i].cfill<3){
+                     mapArray[i].cfill++;
+                  } else {
+                     mapArray[i].cfill = 0;
+                  }
+
+                  if (mapArray[i].cfill === 0){
+                     mapArray[i].drawn = 0;
+                  } else {
+                     mapArray[i].drawn = 1;
+                  }
+               }
+            }
+        };
+
+         //main draw
+         void draw() {
+            image(img, 0,0, img.width/2.1, img.height/2.1);
+            var mapCount = 0;
+            for (var i = 0; i < mapArray.length; i++){
+               if(mapArray[i].drawn ===1){
+                  mapArray[i].draw();
+                  mapCount++;
+               }
+            }
+            textSize(30);
+            fill(255,0,0);
+            text("Points Spent: " + mapCount, 20, 220);
+         };
+
+         
+         
+
+      
+		</script>
+      <canvas> </canvas>
+      <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+</body>
 </html>
