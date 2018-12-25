@@ -15,19 +15,24 @@
 			PImage img;  
 
          void setup() {
-            size(1800, 940);
+            size(1810, 950);
             img = loadImage("map.jpg");  // Load the image into the program  
          }
 
          var mapObj = function(x,y){
             this.x = x;
             this.y = y;
-            this.drawn = 1;
+            this.drawn = 0;
             this.hover = 0;
-            this.cfill = 1; //1 for selected, 2 for elder, 3 for guardian
+            this.cfill = 0; //1 for selected, 2 for elder, 3 for guardian
          };
          
-         var mapArray = [new mapObj(308, 150), new mapObj(384, 155), new mapObj(456, 191)];
+         var mapArray = [new mapObj(305, 148), new mapObj(380, 153), new mapObj(451, 189), new mapObj(518, 178), new mapObj(298, 228), new mapObj(376, 264),
+         new mapObj(422, 237), new mapObj(541, 273), new mapObj(576, 249), new mapObj(590, 186), new mapObj(671, 191), new mapObj(637, 220), new mapObj(637, 282), 
+         new mapObj(452, 276), new mapObj(310, 286),
+         
+         
+         ];
 
          mapObj.prototype.draw = function (){
            
@@ -64,7 +69,7 @@
 
          //main draw
          void draw() {
-            image(img, 0,0, img.width/2.1, img.height/2.1);
+            image(img, 0,0, img.width/1.7, img.height/1.7);
             var mapCount = 0;
             for (var i = 0; i < mapArray.length; i++){
                if(mapArray[i].drawn ===1){
