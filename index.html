@@ -1,93 +1,48 @@
-
 <!DOCTYPE html>
-<!-- start of the document -->
+
 <html> 
  <head>
-    <title>POE Map Planner</title>
-    <script src="processing-1.4.8.min.js"></script>  
+   <meta chraset="utf-8">
+   <title>Test EVE Site</title>  
 </head>
  
- <!-- The body of the webpage, where all visible stuff lies. -->
  <body>
-      <script type="application/processing">
-         /* @pjs preload="map.jpg"; */
 
-			PImage img;  
+<!--
+   <script src="test.js"></script>
+   <script>sayhello();</script>
+ -->
+ <p id="itemName"></p>
+ <p id="itemComponents"></p>
+ <p id="itemBaseComponents"></p>
 
-         void setup() {
-            size(1810, 950);
-            img = loadImage("map.jpg");  // Load the image into the program  
-         }
+   <script>
+      var itemid = prompt("Please enter the item id","ex. 28606 (Orca)");
+      
+      
+      let url = 'https://evepraisal.com/item/'+itemid+'.json';
 
-         var mapObj = function(x,y){
-            this.x = x;
-            this.y = y;
-            this.drawn = 0;
-            this.hover = 0;
-            this.cfill = 0; //1 for selected, 2 for elder, 3 for guardian
-         };
-         
-         var mapArray = [new mapObj(305, 148), new mapObj(380, 153), new mapObj(451, 189), new mapObj(518, 178), new mapObj(298, 228), new mapObj(376, 264),
-         new mapObj(422, 237), new mapObj(541, 273), new mapObj(576, 249), new mapObj(590, 186), new mapObj(671, 191), new mapObj(637, 220), new mapObj(637, 282), 
-         new mapObj(452, 276), new mapObj(310, 286),
-         
-         
-         ];
+      fetch(url)
+      .then(res => res.json())
+      .then((out) => {
+      console.log('Checkout this JSON! ', out);
 
-         mapObj.prototype.draw = function (){
-           
-            if(this.cfill === 1){
-               fill (0, 255, 0);
-            }
-            if(this.cfill === 2){
-               fill (0, 0, 255);
-            }
-            if(this.cfill === 3){
-               fill (160, 82, 45);
-            }
-            ellipse(this.x, this.y, 15, 15);
-         };
+      var jsonStr = JSON.stringify(out.type.name);
+      document.body.innerHTML = jsonStr;
+      document.getElementById(itemName).innerHTML = "Item Name: "+jsonStr;
 
-         //keyboard functions
-         void mouseClicked(){
-            for (var i = 0; i < mapArray.length; i++){
-               if(dist(mouseX, mouseY, mapArray[i].x, mapArray[i].y) < 7.6 ){
-                  if (mapArray[i].cfill<3){
-                     mapArray[i].cfill++;
-                  } else {
-                     mapArray[i].cfill = 0;
-                  }
 
-                  if (mapArray[i].cfill === 0){
-                     mapArray[i].drawn = 0;
-                  } else {
-                     mapArray[i].drawn = 1;
-                  }
-               }
-            }
-        };
 
-         //main draw
-         void draw() {
-            image(img, 0,0, img.width/1.7, img.height/1.7);
-            var mapCount = 0;
-            for (var i = 0; i < mapArray.length; i++){
-               if(mapArray[i].drawn ===1){
-                  mapArray[i].draw();
-                  mapCount++;
-               }
-            }
-            textSize(30);
-            fill(255,0,0);
-            text("Points Spent: " + mapCount, 20, 220);
-         };
 
-         
-         
 
       
-		</script>
-      <canvas> </canvas>
-      <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+      })
+      .catch(err => { throw err });
+
+      
+   </script>
+
+
+   <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 </body>
 </html>
