@@ -16,8 +16,8 @@
 
 
    <p>Input below the item ID (ex. 28606 (Orca)).</p>
-   Item ID: <input type = "text" id = "itemidtext">
-   <button onclick="searchItem()">Go</button>
+   Item ID: <input type="text" id="itemidtext">ME: <input type="text" id="me">
+   <button onclick="clearPage(); searchItem()">Go</button>
 
    <p id="itemName"></p>
    <p id="itemComponents"></p>
@@ -34,11 +34,27 @@
 
 
    <script>
+      function clearPage() {
+         document.getElementById("itemName").innerHTML = "";
+         document.getElementById("itemComponents").innerHTML = "";
+         document.getElementById("itemBaseComponents").innerHTML = "";
+         document.getElementById("tri").innerHTML = "";
+         document.getElementById("pye").innerHTML = "";
+         document.getElementById("mex").innerHTML = "";
+         document.getElementById("iso").innerHTML = "";
+         document.getElementById("noc").innerHTML = "";
+         document.getElementById("zyd").innerHTML = "";
+         document.getElementById("meg").innerHTML = "";
+         document.getElementById("mor").innerHTML = "";
+      }
+
+
 
       function searchItem() {
 
          var itemid = document.getElementById("itemidtext").value;
-
+         var me = document.getElementById("me").value;
+         var triTot = 0;
          if (itemid != null) {
             let url = 'https://evepraisal.com/item/' + itemid + '.json';
 
@@ -55,37 +71,37 @@
                   document.getElementById("itemBaseComponents").innerHTML = "Item Base Components: " + jsonStr;
 
                   var jsonEle = 0;
-                  for(var key in out.type.base_components){
-                     if(out.type.base_components.hasOwnProperty(key)){
-                        if(out.type.base_components[key].type_id == 34){
+                  for (var key in out.type.base_components) {
+                     if (out.type.base_components.hasOwnProperty(key)) {
+                        if (out.type.base_components[key].type_id == 34) {
                            jsonEle = out.type.base_components[key].quantity;
                            document.getElementById("tri").innerHTML = "Tritanium: " + jsonEle;
                         }
-                        if(out.type.base_components[key].type_id == 35){
+                        if (out.type.base_components[key].type_id == 35) {
                            jsonEle = out.type.base_components[key].quantity;
                            document.getElementById("pye").innerHTML = "Pyerite: " + jsonEle;
                         }
-                        if(out.type.base_components[key].type_id == 36){
+                        if (out.type.base_components[key].type_id == 36) {
                            jsonEle = out.type.base_components[key].quantity;
                            document.getElementById("mex").innerHTML = "Mexallon: " + jsonEle;
                         }
-                        if(out.type.base_components[key].type_id == 37){
+                        if (out.type.base_components[key].type_id == 37) {
                            jsonEle = out.type.base_components[key].quantity;
                            document.getElementById("iso").innerHTML = "Isogen: " + jsonEle;
                         }
-                        if(out.type.base_components[key].type_id == 38){
+                        if (out.type.base_components[key].type_id == 38) {
                            jsonEle = out.type.base_components[key].quantity;
                            document.getElementById("noc").innerHTML = "Nocxium: " + jsonEle;
                         }
-                        if(out.type.base_components[key].type_id == 39){
+                        if (out.type.base_components[key].type_id == 39) {
                            jsonEle = out.type.base_components[key].quantity;
                            document.getElementById("zyd").innerHTML = "Zydrine: " + jsonEle;
                         }
-                        if(out.type.base_components[key].type_id == 40){
+                        if (out.type.base_components[key].type_id == 40) {
                            jsonEle = out.type.base_components[key].quantity;
                            document.getElementById("meg").innerHTML = "Megacyte: " + jsonEle;
                         }
-                        if(out.type.base_components[key].type_id == 41){
+                        if (out.type.base_components[key].type_id == 41) {
                            jsonEle = out.type.base_components[key].quantity;
                            document.getElementById("mor").innerHTML = "Morphite: " + jsonEle;
                         }
@@ -93,7 +109,40 @@
                   }
                   
 
+                  for (var key in out.type.components) {
+                     let keyy = key;
+                     if (out.type.components.hasOwnProperty(key)) {
+                        var curCom = out.type.components[key].type_id;
+                        var url2 = 'https://evepraisal.com/item/' + curCom + '.json';
+                        
+                        fetch(url2)
+                           .then(res2 => res2.json())
+                           .then((out2) => {
+                              console.log('Checkout this JSON2! ', out2);
+                              for (var key2 in out2.type.base_components) {
+                                 //var formula = (out.type.components[keyy].quantity);
+                                       //console.log('formula: ', formula);
+                                       //console.log('key: ', keyy);
+                                 if (out2.type.base_components.hasOwnProperty(key2)) {
+                                    if (out2.type.base_components[key2].type_id == 34) {
+                                       var exqu = (out.type.components[keyy].quantity - Math.ceil((me/100*out.type.components[keyy].quantity)));
+                                       console.log("quant: ", exqu);
+                                       triTot = (out.type.components[keyy].quantity - Math.ceil((me/100*out.type.components[keyy].quantity)))*out2.type.components[key2].quantity;
+                                       console.log('trittotal: ', triTot);
+                                       document.getElementById("tri").innerHTML = "Tritanium: " + triTot;
+                                    }
+
+                                 }
+
+                              }
+                           })
+                           .catch(err => { throw err });
+
+                     }
+                  }
                })
+
+
                .catch(err => { throw err });
          }
 
@@ -101,7 +150,7 @@
 
    </script>
 
-   
+
 
    <!--LiveReload script-->>
    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
