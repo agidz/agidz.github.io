@@ -1,48 +1,65 @@
 <!DOCTYPE html>
 
-<html> 
- <head>
-   <meta chraset="utf-8">
-   <title>Test EVE Site</title>  
-</head>
- 
- <body>
+<html>
 
-<!--
+<head>
+   <meta chraset="utf-8">
+   <title>Test EVE Site</title>
+</head>
+
+<body>
+
+   <!--
    <script src="test.js"></script>
    <script>sayhello();</script>
  -->
- <p id="itemName"></p>
- <p id="itemComponents"></p>
- <p id="itemBaseComponents"></p>
+
+
+   <p>Click the button to demonstrate the prompt box.</p>
+
+   <button onclick="searchItem()">Go</button>
+
+   <p id="itemName"></p>
+   <p id="itemComponents"></p>
+   <p id="itemBaseComponents"></p>
 
    <script>
-      var itemid = prompt("Please enter the item id","ex. 28606 (Orca)");
-      
-      
-      let url = 'https://evepraisal.com/item/'+itemid+'.json';
 
-      fetch(url)
-      .then(res => res.json())
-      .then((out) => {
-      console.log('Checkout this JSON! ', out);
-
-      var jsonStr = JSON.stringify(out.type.name);
-      document.body.innerHTML = jsonStr;
-      document.getElementById(itemName).innerHTML = "Item Name: "+jsonStr;
+      function searchItem() {
 
 
 
+         var itemid = prompt("Please enter the item id", "ex. 28606 (Orca)");
 
 
-      
-      })
-      .catch(err => { throw err });
+         if (itemid != null) {
+            let url = 'https://evepraisal.com/item/' + itemid + '.json';
 
-      
+            fetch(url)
+               .then(res => res.json())
+               .then((out) => {
+                  console.log('Checkout this JSON! ', out);
+
+                  var jsonStr = JSON.stringify(out.type.name);
+                  document.getElementById("itemName").innerHTML = "Item Name: " + jsonStr;
+                  jsonStr = JSON.stringify(out.type.components);
+                  document.getElementById("itemComponents").innerHTML = "Item Name: " + jsonStr;
+                  jsonStr = JSON.stringify(out.type.base_components);
+                  document.getElementById("itemBaseComponents").innerHTML = "Item Name: " + jsonStr;
+                  
+
+               })
+               .catch(err => { throw err });
+         }
+
+      }
+
    </script>
 
+   
 
+   <!--LiveReload script-->>
    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 </body>
+
 </html>
