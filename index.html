@@ -111,6 +111,7 @@
 
                   for (var key in out.type.components) {
                      let keyy = key;
+                      
                      if (out.type.components.hasOwnProperty(key)) {
                         var curCom = out.type.components[key].type_id;
                         var url2 = 'https://evepraisal.com/item/' + curCom + '.json';
@@ -120,14 +121,17 @@
                            .then((out2) => {
                               console.log('Checkout this JSON2! ', out2);
                               for (var key2 in out2.type.base_components) {
+                                 let value = key2;
                                  //var formula = (out.type.components[keyy].quantity);
                                        //console.log('formula: ', formula);
                                        //console.log('key: ', keyy);
                                  if (out2.type.base_components.hasOwnProperty(key2)) {
                                     if (out2.type.base_components[key2].type_id == 34) {
-                                       var exqu = (out.type.components[keyy].quantity - Math.ceil((me/100*out.type.components[keyy].quantity)));
+                                       var exqu = (out.type.components[keyy].quantity - Math.floor((me/100*out.type.components[keyy].quantity)));
                                        console.log("quant: ", exqu);
-                                       triTot = (out.type.components[keyy].quantity - Math.ceil((me/100*out.type.components[keyy].quantity)))*out2.type.components[key2].quantity;
+                                       console.log("value: ", value);
+                                       console.log("minerals: ", out2.type.base_components[value].quantity);
+                                       triTot = triTot+exqu*out2.type.base_components[value].quantity;
                                        console.log('trittotal: ', triTot);
                                        document.getElementById("tri").innerHTML = "Tritanium: " + triTot;
                                     }
