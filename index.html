@@ -69,7 +69,7 @@
             fetch(url)
                .then(res => res.json())
                .then((out) => {
-                  console.log('Checkout this JSON! ', out);
+                  //console.log('Checkout this JSON! ', out);
 
                   var jsonStr = JSON.stringify(out.type.name);
                   document.getElementById("itemName").innerHTML = "Item Name: " + jsonStr;
@@ -89,7 +89,7 @@
                         fetch(url2)
                            .then(res2 => res2.json())
                            .then((out2) => {
-                              console.log('Checkout this JSON2! ', out2);
+                              //console.log('Checkout this JSON2! ', out2);
                               for (var key2 in out2.type.base_components) {
                                  let value = key2;
                                  //var formula = (out.type.components[keyy].quantity);
@@ -98,11 +98,11 @@
                                  if (out2.type.base_components.hasOwnProperty(key2)) {
                                     if (out2.type.base_components[key2].type_id == 34) {
                                        var exqu = (out.type.components[keyy].quantity - Math.floor((me/100*out.type.components[keyy].quantity)));
-                                       console.log("quant: ", exqu);
-                                       console.log("value: ", value);
-                                       console.log("minerals: ", out2.type.base_components[value].quantity);
+                                       //console.log("quant: ", exqu);
+                                       //console.log("value: ", value);
+                                       //console.log("minerals: ", out2.type.base_components[value].quantity);
                                        triTot = triTot+exqu*out2.type.base_components[value].quantity;
-                                       console.log('trittotal: ', triTot);
+                                       //console.log('trittotal: ', triTot);
                                        document.getElementById("tri").innerHTML = "Tritanium: " + triTot;
                                     }
                                     if (out2.type.base_components[key2].type_id == 35) {
