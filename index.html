@@ -30,7 +30,9 @@
    <p id="zyd"></p>
    <p id="meg"></p>
    <p id="mor"></p>
-
+   Minerals Sorted (ctl+a list): <input type="text" id="mineralsDump" > 
+   <button onclick="parseDump()">Parse</button>
+   <p id="minerals"></p>
 
 
    <script>
@@ -48,7 +50,21 @@
          document.getElementById("mor").innerHTML = "";
       }
 
-
+      function parseDump(){
+         document.getElementById("minerals").innerHTML = "";
+         
+         if(mineralsDump != null){
+            var parsedText =document.getElementById("mineralsDump").value.split(" ");
+            //var parsedText = document.getElementById("mineralsDump").value.replace('ISK', ' \');
+            
+            for (var i = 0; i < parsedText.length; i=i+3){
+               var section = parsedText[i].split("Mineral");
+               document.getElementById("minerals").innerHTML += section[0]+ "<br>";
+            }
+            
+         }
+         
+      }
 
       function searchItem() {
 
