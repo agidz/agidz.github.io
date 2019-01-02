@@ -15,22 +15,29 @@
  -->
 
 
-   <p>Click the button to demonstrate the prompt box.</p>
-
+   <p>Input below the item ID (ex. 28606 (Orca)).</p>
+   Item ID: <input type = "text" id = "itemidtext">
    <button onclick="searchItem()">Go</button>
 
    <p id="itemName"></p>
    <p id="itemComponents"></p>
    <p id="itemBaseComponents"></p>
+   <p id="tri"></p>
+   <p id="pye"></p>
+   <p id="mex"></p>
+   <p id="iso"></p>
+   <p id="noc"></p>
+   <p id="zyd"></p>
+   <p id="meg"></p>
+   <p id="mor"></p>
+
+
 
    <script>
 
       function searchItem() {
 
-
-
-         var itemid = prompt("Please enter the item id", "ex. 28606 (Orca)");
-
+         var itemid = document.getElementById("itemidtext").value;
 
          if (itemid != null) {
             let url = 'https://evepraisal.com/item/' + itemid + '.json';
@@ -43,9 +50,47 @@
                   var jsonStr = JSON.stringify(out.type.name);
                   document.getElementById("itemName").innerHTML = "Item Name: " + jsonStr;
                   jsonStr = JSON.stringify(out.type.components);
-                  document.getElementById("itemComponents").innerHTML = "Item Name: " + jsonStr;
+                  document.getElementById("itemComponents").innerHTML = "Item Components: " + jsonStr;
                   jsonStr = JSON.stringify(out.type.base_components);
-                  document.getElementById("itemBaseComponents").innerHTML = "Item Name: " + jsonStr;
+                  document.getElementById("itemBaseComponents").innerHTML = "Item Base Components: " + jsonStr;
+
+                  var jsonEle = 0;
+                  for(var key in out.type.base_components){
+                     if(out.type.base_components.hasOwnProperty(key)){
+                        if(out.type.base_components[key].type_id == 34){
+                           jsonEle = out.type.base_components[key].quantity;
+                           document.getElementById("tri").innerHTML = "Tritanium: " + jsonEle;
+                        }
+                        if(out.type.base_components[key].type_id == 35){
+                           jsonEle = out.type.base_components[key].quantity;
+                           document.getElementById("pye").innerHTML = "Pyerite: " + jsonEle;
+                        }
+                        if(out.type.base_components[key].type_id == 36){
+                           jsonEle = out.type.base_components[key].quantity;
+                           document.getElementById("mex").innerHTML = "Mexallon: " + jsonEle;
+                        }
+                        if(out.type.base_components[key].type_id == 37){
+                           jsonEle = out.type.base_components[key].quantity;
+                           document.getElementById("iso").innerHTML = "Isogen: " + jsonEle;
+                        }
+                        if(out.type.base_components[key].type_id == 38){
+                           jsonEle = out.type.base_components[key].quantity;
+                           document.getElementById("noc").innerHTML = "Nocxium: " + jsonEle;
+                        }
+                        if(out.type.base_components[key].type_id == 39){
+                           jsonEle = out.type.base_components[key].quantity;
+                           document.getElementById("zyd").innerHTML = "Zydrine: " + jsonEle;
+                        }
+                        if(out.type.base_components[key].type_id == 40){
+                           jsonEle = out.type.base_components[key].quantity;
+                           document.getElementById("meg").innerHTML = "Megacyte: " + jsonEle;
+                        }
+                        if(out.type.base_components[key].type_id == 41){
+                           jsonEle = out.type.base_components[key].quantity;
+                           document.getElementById("mor").innerHTML = "Morphite: " + jsonEle;
+                        }
+                     }
+                  }
                   
 
                })
